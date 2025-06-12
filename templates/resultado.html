@@ -15,9 +15,10 @@
                         <h3 class="card-title text-success mb-4">PDF procesado con éxito</h3>
                         <p class="mb-4">Puedes descargar los resultados o ver la página generada:</p>
                         <div class="d-grid gap-3">
-                            <a href="/" class="btn btn-success">Volver al inicio</a>
-                            <a href="/descargar/{{ codigo }}" class="btn btn-primary">Descargar PDF con QR</a>
-                            <a href="/html/{{ codigo }}" class="btn btn-outline-success">Ver página HTML</a>
+                            <a href="/" class="btn btn-primary">Volver al inicio</a>
+                            <a href="/editar/{{ codigo }}?from={{ request.path }}" class="btn btn-warning">Editar datos PDF</a>
+                            <a href="/generar_pdf/{{ codigo }}" class="btn btn-success">Generar PDF Completo</a>
+                            <a href="/generar_pdf_reducido/{{ codigo }}" class="btn btn-info">Generar PDF Reducido</a>
                         </div>
                     </div>
                 </div>

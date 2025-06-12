@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar datos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h3 class="mb-4">Editar datos del PDF</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% for clave, valor in datos %}
+            <div class="mb-3">
+                <label class="form-label">{{ clave }}</label>
+                <input type="hidden" name="clave" value="{{ clave }}">
+                {% if clave == 'logo' or clave == 'img_firma' %}
+                    <input type="file" name="archivo_{{ loop.index0 }}" accept="image/png" class="form-control">
+                    <input type="hidden" name="valor" value="{{ valor }}">
+                {% else %}
+                    <input type="text" name="valor" class="form-control" value="{{ valor }}">
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-success" onclick="guardarYVolver()">Guardar</button>
+            <button type="button" class="btn btn-secondary" onclick="history.back()">Cancelar</button>
+            
+        </div>
+    </form>
+</div>
+</body>
+<script>
+function guardarYVolver() {
+    const form = document.querySelector("form");
+    const formData = new FormData(form);
+    fetch(form.action, {
+        method: "POST",
+        body: formData
+    }).then(() => {
+        history.back();  // regresa a la página anterior real
+    });
+}
+</script>
+
+</html>

@@ -24,7 +24,6 @@ with open("consulta.html", "r", encoding="utf-8") as f:
 def index():
     return render_template("index.html")
 
-
 @app.route('/procesar', methods=['POST'])
 def procesar():
     file = request.files['pdf_file']
@@ -36,7 +35,7 @@ def procesar():
 
     # Extraer Código de Verificación
     text = "\n".join(page.get_text() for page in doc)
-    print(text)
+    #print(text)
     cod_verif = extraer_codigo_verificacion(text)
     if not cod_verif:
         return "No se encontró el Código de Verificación."
@@ -211,21 +210,83 @@ def editar(codigo):
     return render_template("editar.html", codigo=codigo, datos=datos)
 
 
+#def extraer_campos(texto, qr):
+#    print(texto)
+#    campos = []  # lista de tuplas (clave, valor)
+#    for linea in texto.split("\n"):
+#        if ":" in linea:
+#            clave, valor = linea.split(":", 1)
+#            campos.append((clave.strip(), valor.strip()))
+#    clave, valor = "logo",""
+#    campos.append((clave.strip(), valor.strip()))
+#    clave, valor = "img_firma",""
+#   campos.append((clave.strip(), valor.strip()))
+#    clave, valor = "firmante",""
+#    campos.append((clave.strip(), valor.strip()))
+#    clave, valor = "codigo_qr",qr
+#    campos.append((clave.strip(), valor.strip()))
+#    return campos
 def extraer_campos(texto, qr):
-    campos = []  # lista de tuplas (clave, valor)
-    for linea in texto.split("\n"):
-        if ":" in linea:
-            clave, valor = linea.split(":", 1)
-            campos.append((clave.strip(), valor.strip()))
-    clave, valor = "logo",""
-    campos.append((clave.strip(), valor.strip()))
-    clave, valor = "img_firma",""
-    campos.append((clave.strip(), valor.strip()))
-    clave, valor = "firmante",""
-    campos.append((clave.strip(), valor.strip()))
-    clave, valor = "codigo_qr",qr
-    campos.append((clave.strip(), valor.strip()))
+    print(texto)
+    campos = []  # Lista de tuplas (clave, valor)
+    lineas = texto.split("\n")
+    clave_actual = None
+    valor_actual = []
+    firmante = ""  # Variable para capturar el firmante
+
+    # Lista de textos a ignorar
+    ignorar = [
+        "INFORMACIÓN",
+        "PRODUCTOS",
+        "OBSERVACIONES",
+        "DETALLADA",
+        "INFORMACIÓN AGENTE DE LA CADENA VENDEDOR",
+        "INFORMACIÓN AGENTE DE LA CADENA COMPRADOR",
+        "INFORMACIÓN TRANSPORTE",
+        "VIGENTE",
+        "VENDEDOR",
+        "COMPRADOR",
+        "Para validar la autenticidad de esta guía puede consultar en la",
+        "página https://sigdi.sicom.gov.co/guias/consulta/ O por medio",
+        "del siguiente código QR"
+    ]
+
+    for i, linea in enumerate(lineas):
+        if any(texto_ignorar in linea for texto_ignorar in ignorar):
+            continue  # Ignorar líneas con textos específicos
+
+        # Detectar firmante como línea anterior a "Firmado:"
+        if "Firmado:" in linea and i > 0:
+            firmante = lineas[i - 1].strip()
+
+        if ":" in linea:  # Nueva clave encontrada
+            if clave_actual:  # Si hay una clave anterior, guardamos el campo actual
+                campos.append((clave_actual.strip(), " ".join(valor_actual).strip()))
+            
+            clave_actual, valor = linea.split(":", 1)
+
+            # Excepción para "Precintos instalados:"
+            if clave_actual.strip() == "Precintos instalados":
+                campos.append((clave_actual.strip(), valor.strip()))
+                clave_actual = None  # Reiniciar para evitar acumulación
+                valor_actual = []
+            else:
+                valor_actual = [valor.strip()]  # Comenzamos a acumular el valor
+        elif clave_actual:  # Línea sin ":", asumimos que es continuación del valor
+            valor_actual.append(linea.strip())
+
+    # Agregar el último campo acumulado
+    if clave_actual:
+        campos.append((clave_actual.strip(), " ".join(valor_actual).strip()))
+
+    # Agregar campos adicionales
+    campos.append(("logo", ""))
+    campos.append(("img_firma", ""))
+    campos.append(("firmante", firmante))
+    campos.append(("codigo_qr", qr))
+
     return campos
+
 
 def obtener_valor_definido(datos, clave):
     for item in datos:
@@ -300,7 +361,7 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
 
     # Información de Productos
     x, y  = Ix, 550
-    for i in range(13, 16):
+    for i in range(12, 15):
         x = Ix
         y = y + Iy
         page.insert_text((x, y), obtener_llave(datos, i), fontsize=10, fontname='times-bold')
@@ -325,19 +386,19 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
     page.insert_text((x, y), "VENDEDOR", fontsize=11, fontname='helv')
     page.insert_text((x, y), "VENDEDOR", fontsize=11, fontname='helv')
     Ix = 317
-    y = y + Iy - 6
-    for i in range(16, 26):
+    y = y + Iy - 15
+    for i in range(15, 25):
         x = Ix
-        y = y + Iy 
+        y = y + Iy - 1
         page.insert_text((x, y), obtener_llave(datos, i), fontsize=10, fontname='times-bold')
         ancho_llave = font_bold.text_length(obtener_llave(datos, i), fontsize=10)
         ancho_valor = font_bold.text_length(obtener_valor(datos, i), fontsize=9)
         if ancho_llave + ancho_valor > 240:
             x = x + ancho_llave
-            page.insert_text((x, y), obtener_valor(datos, i)[:10], fontsize=9)
+            page.insert_text((x, y), obtener_valor(datos, i)[:11], fontsize=9)
             x = Ix
             y = y + Iy
-            page.insert_text((x, y), obtener_valor(datos, i)[10:], fontsize=9)
+            page.insert_text((x, y), obtener_valor(datos, i)[11:], fontsize=9)
         else:
             x = x + ancho_llave
             page.insert_text((x, y), obtener_valor(datos, i), fontsize=9)
@@ -352,7 +413,7 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
     page.insert_text((x, y), "COMPRADOR", fontsize=11, fontname='helv')
     Ix = 315
     y = y + Iy - 8
-    for i in range(26, 35):
+    for i in range(25, 34):
         x = Ix
         y = y + Iy 
         page.insert_text((x, y), obtener_llave(datos, i), fontsize=10, fontname='times-bold')
@@ -375,7 +436,7 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
     page.insert_text((x, y), "INFORMACIÓN TRANSPORTE", fontsize=11, fontname='helv')
     page.insert_text((x, y), "INFORMACIÓN TRANSPORTE", fontsize=11, fontname='helv')    
     y = y + Iy - 8
-    for i in range(35, 45):
+    for i in range(34, 44):
         x = Ix
         y = y + Iy 
         page.insert_text((x, y), obtener_llave(datos, i), fontsize=10, fontname='times-bold')
@@ -405,16 +466,16 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
     page.insert_text((x, y), obtener_valor_definido(datos, "firmante"), fontsize=10, fontname='times-bold')
     x = x + 30
     y = y + Iy
+    page.insert_text((x, y), obtener_llave(datos, 44), fontsize=9, fontname='helv')
+    ancho_llave = font_bold.text_length(obtener_llave(datos, 44), fontsize=10)
+    x = x + ancho_llave - 5 
+    page.insert_text((x, y), obtener_valor(datos, 44), fontsize=9, fontname='helv')
+    x = 370
+    y = y + Iy
     page.insert_text((x, y), obtener_llave(datos, 45), fontsize=9, fontname='helv')
     ancho_llave = font_bold.text_length(obtener_llave(datos, 45), fontsize=10)
     x = x + ancho_llave - 5 
     page.insert_text((x, y), obtener_valor(datos, 45), fontsize=9, fontname='helv')
-    x = 370
-    y = y + Iy
-    page.insert_text((x, y), obtener_llave(datos, 46), fontsize=9, fontname='helv')
-    ancho_llave = font_bold.text_length(obtener_llave(datos, 46), fontsize=10)
-    x = x + ancho_llave - 5 
-    page.insert_text((x, y), obtener_valor(datos, 46), fontsize=9, fontname='helv')
     
     doc.save(salida_path)
     doc.close()
@@ -428,7 +489,7 @@ def generar_pdf_desde_plantilla1(json_path, salida_path, plantilla_path="plantil
 
     with open(json_path, encoding="utf-8") as f:
         datos = json.load(f)
-    print(datos)
+    #print(datos)
 
     doc = fitz.open(plantilla_path)
     page = doc[0]  # Usamos la primera página
