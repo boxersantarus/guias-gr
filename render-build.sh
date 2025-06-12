@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-apt-get update && apt-get install -y libzbar-dev
+apt-get install -y libzbar-dev
