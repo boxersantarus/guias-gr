@@ -6,12 +6,21 @@ from bs4 import BeautifulSoup
 from io import BytesIO
 import cv2
 import numpy as np
-from pyzbar.pyzbar import decode
+#from pyzbar.pyzbar import decode
 import json
 import uuid
+from pyzbar import pyzbar
 
-# Establecer la ruta de la biblioteca ZBar
+# Configurar la ruta de la biblioteca local
 os.environ['LD_LIBRARY_PATH'] = os.path.join(os.getcwd(), 'lib/zbar')
+
+# Decodificar un ejemplo
+#from PIL import Image
+#image = Image.open('example.png')
+#decoded_objects = pyzbar.decode(image)
+#for obj in decoded_objects:
+#    print("Type:", obj.type)
+#    print("Data:", obj.data.decode("utf-8"))
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
