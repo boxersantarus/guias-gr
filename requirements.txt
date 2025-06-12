@@ -6,3 +6,4 @@ opencv-python
 pyzbar
 numpy
 gunicorn
+Pillow

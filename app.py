@@ -9,10 +9,10 @@ import numpy as np
 #from pyzbar.pyzbar import decode
 import json
 import uuid
-from pyzbar import pyzbar
+#from pyzbar import pyzbar
 
 # Configurar la ruta de la biblioteca local
-os.environ['LD_LIBRARY_PATH'] = os.path.join(os.getcwd(), 'lib/zbar')
+#os.environ['LD_LIBRARY_PATH'] = os.path.join(os.getcwd(), 'lib/zbar')
 
 # Decodificar un ejemplo
 #from PIL import Image
