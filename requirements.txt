@@ -1,0 +1,7 @@
+Flask
+PyMuPDF
+qrcode
+beautifulsoup4
+opencv-python
+pyzbar
+numpy

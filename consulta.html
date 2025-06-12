@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head prefix="og: http://ogp.me/ns# ">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Validar Código de la Firma</title>
+<meta name="author" content="Sistema de Guías Digitales" />
+<meta name="language" content="spanish" />
+<meta property="og:locale" content="es_la" />
+<meta property="og:locale:alternate" content="es_es" />
+<meta property="og:site_name" content="Sistema de Guías Digitales" />
+<meta name="keywords" content="SIGDI, Sistema de Información de Guías Digitales, SICOM, Guías Digitales, Transporte, Colombia" />
+<meta name="description" content="Sistema de Información de Guías Digitales" />
+<meta property="og:title" content="SIGDI" />
+<meta property="og:description" content="Sistema de Información de Guías Digitales" />
+<meta property="og:url" content="https://sigdi.sicom.gov.co/" />
+<meta property="og:type" content="website" />
+<meta name="twitter:title" content="SIGDI" />
+<meta name="twitter:description" content="Sistema de Información de Guías Digitales" />
+<meta name="twitter:url" content="https://sigdi.sicom.gov.co/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link href="https://sigdi.sicom.gov.co/" rel="canonical" />
+<meta name="Robots" content="index,follow" />
+<meta name="status" content="sigdi.sicom.gov.co" />
+<link rel="shortcut icon" href="https://sigdi.sicom.gov.co/info/minergia8/web/portal/img/favicon.png" />
+<link href="https://sigdi.sicom.gov.co/media/plugins/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+<link href="https://sigdi.sicom.gov.co/media/plugins/fontawesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="https://sigdi.sicom.gov.co/media/plugins/jqueryui/1.13.2/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="https://sigdi.sicom.gov.co/media/plugins/calendar/jquery-timepicker/1.4.4/jquery-ui-timepicker-addon.min.css" rel="stylesheet" type="text/css" />
+<link href="https://sigdi.sicom.gov.co/media/css/user.min.css?nxcache=1596566587" rel="stylesheet" type="text/css" />
+<link href="https://sigdi.sicom.gov.co/info/minergia8/web/portal/css/user.min.css?nxcache=1596566587" rel="stylesheet" type="text/css" />
+
+<script src="https://sigdi.sicom.gov.co/media/plugins/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://sigdi.sicom.gov.co/media/plugins/language/default/language.min.js"></script>
+<script src="https://sigdi.sicom.gov.co/media/plugins/jqueryValidate/1.19.5/dist/jquery.validate.min.js"></script>
+
+</head>
+<body class="dModGuias">
+<script>
+    $("body").addClass("dInterno")
+</script>
+<header>
+	<div class="nxBlock nxBlock3 nxBlockDesign1 nxBlockConfigTools
+ no-padding menu-guia"
+     >
+    
+    <div class="defaultConfigTools blockContent">
+        
+    
+    <div id="menu-guia" class="collapse">
+        <div class="container">
+            <div class="row">
+                <div  class="col-sm-8 col-md-8 contentTools"
+                      >
+                    <div class="contentBtnConfigTools">
+                        <button type="button" class="btn btn-secondary btnConfigTools" data-type="configTools"
+                                data-typedes="default">Configuración por defecto</button>
+                        <button type="button" class="btn btn-secondary btnConfigTools" data-type="configTools"
+                                data-typedes="highContrast">Alto contraste</button>
+                        <button type="button" class="btn btn-secondary btnConfigTools" data-type="configTools"
+                                data-typedes="textOnly">Solo texto</button>
+                    </div>
+
+                    <div class="contentIconConfigFont">
+                        <a href="#" class="btnConfigTools" title="Habilitar tamaño de fuente menor"
+                           data-type="configFont" data-typedes="lg">
+                            <span class="sr-only">Tamaño de fuente menor</span>
+                            <span class="fa fa-font fa-lg" aria-hidden="true"></span>
+                        </a>
+                        <a href="#" class="btnConfigTools" title="Habilitar tamaño de fuente predeterminado"
+                           data-type="configFont" data-typedes="2x">
+                            <span class="sr-only">Tamaño de fuente predeterminado</span>
+                            <span class="fa fa-font fa-2x" aria-hidden="true"></span>
+                        </a>
+                        <a href="#" class="btnConfigTools" title="Habilitar tamaño de fuente menor"
+                           data-type="configFont" data-typedes="3x">
+                            <span class="sr-only">Tamaño de fuente mayor</span>
+                            <span class="fa fa-font fa-3x" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+
+                                    <div class="col-sm-4 col-md-4 contentConfig">
+                                                                                                                        <a href="/mapa-sitio" title="Ir a Mapa de sitio">Mapa de sitio
+                                        <span class="fa fa-sitemap" aria-hidden="true"></span>
+                                    </a>
+                                                                                    
+                                                    <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        data-toggle="dropdown">Idiomas
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                                                                                                        <li>
+                                                <a href="https://sigdi.sicom.gov.co/loader.php?lServicio=Tools2&amp;lTipo=idioma&amp;idioma=ES">
+                                                    Español
+                                                </a>
+                                            </li>
+                                                                                                                                                                <li>
+                                                <a href="https://sigdi.sicom.gov.co/loader.php?lServicio=Tools2&amp;lTipo=idioma&amp;idioma=EN">
+                                                    English
+                                                </a>
+                                            </li>
+                                                                                                            </ul>
+                            </div>
+                                            </div>
+                            </div>
+        </div>
+    </div>
+
+            <script>
+            let interval;
+
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({pageLanguage: 'es',autoDisplay: false}, 'google_translate_element');
+
+                window.onunload = function () {
+                    killDobleTranslateCookie();
+                };
+
+                if (document.readyState === "complete") {
+                    interval = setInterval(killDobleTranslateCookie, 500);
+                } else {
+                    window.addEventListener("load", function () {
+                        interval = setInterval(killDobleTranslateCookie, 500);
+                    },false);
+                }
+            }
+
+            function killDobleTranslateCookie() {
+                clearInterval(interval);
+
+                var cookies = document.cookie;
+                let cookieGoogtrans = cookies.match(/googtrans=(.*?)(;|$)/g);
+                //se valida si hay dos cookies de googtrans
+                if (!cookieGoogtrans || cookieGoogtrans.length <= 1) {
+                    // Se valida si hay una cookie de googtrans
+                    if (cookieGoogtrans && cookieGoogtrans.length === 1) {
+                        // Se obtiene el valor actual de una de las cookies googtrans
+                        let cookieValue = encodeURIComponent(decodeURIComponent(cookieGoogtrans[0].split('=')[1].split(';')[0]));
+                        // Se actualiza la cookie con el valor cookieValue y se agrega atributos secure y sameSite
+                        document.cookie = "googtrans=" + cookieValue + "; secure; samesite=None";
+                    }
+                    return;
+                }
+                //se toma la url actual y se valida que no termina en
+                //por ejemplo gov.co
+                var href = window.location.hostname.split(".");
+                if (href.length > 2 && href[0] !== "www") {
+                    for (var ref = href; 2 < ref.length;)
+                        ref.shift();
+                    ref = ref.join(".");
+
+                    /*
+                    Se comenta esta línea dado que para dominios como gov.co no elimina las cookies duplicadas
+                    if (/([a-z]{3})\.([a-z]{2})$/.test(ref)) return;
+                     */
+
+                    // Se obtiene el valor actual de una de las cookies googtrans
+                    let cookieValue = encodeURIComponent(decodeURIComponent(cookieGoogtrans[0].split('=')[1].split(';')[0]));
+                    // Se elimina una de las cookies duplicadas
+                    document.cookie = "googtrans=; path=/; domain=" + ref + "; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+                    // Se actualiza la cookie con el valor cookieValue y se agrega atributos secure y sameSite
+                    document.cookie = "googtrans=" + cookieValue + "; secure; samesite=None";
+                }
+            }
+        </script>
+        <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <script>
+        function switchConfigTools(typeDesc) {
+            var body = $("body");
+            body.removeClass("configDefaultTools configHighContrastTools configTextOnlyTools");
+            $('[data-type="configTools"]').removeClass("active");
+
+            switch (typeDesc) {
+                case 'default':
+                    $('[data-typedes="default"]').addClass("active");
+                    body.addClass("configDefaultTools");
+                    break;
+                case 'highContrast':
+                    $('[data-typedes="highContrast"]').addClass("active");
+                    body.addClass("configHighContrastTools");
+                    break;
+                case 'textOnly':
+                    $('[data-typedes="textOnly"]').addClass("active");
+                    body.addClass("configTextOnlyTools");
+                    break;
+            }
+        }
+
+        function switchConfigFont(typeDesc) {
+            var body = $("body");
+            body.removeClass("faFontLg faFont2x faFont3x");
+            $('[data-type="configFont"]').removeClass("active");
+
+            switch (typeDesc) {
+                case 'lg':
+                    $('[data-typedes="lg"]').addClass("active");
+                    body.addClass("faFontLg");
+                    break;
+                case '2x':
+                    $('[data-typedes="2x"]').addClass("active");
+                    body.addClass("faFont2x");
+                    break;
+                case '3x':
+                    $('[data-typedes="3x"]').addClass("active");
+                    body.addClass("faFont3x");
+                    break;
+            }
+        }
+
+        $(".btnConfigTools").click(function (e) {
+            e.preventDefault();
+            var type = $(this).data("type");
+            var typeDesc = $(this).data("typedes");
+            console.log(type + " " + typeDesc);
+            document.cookie = type + "=" + typeDesc + "; path=/";
+
+            if (type === "configTools") {
+                switchConfigTools(typeDesc);
+            }
+
+            if (type === "configFont") {
+                switchConfigFont(typeDesc);
+            }
+
+        });
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        $(document).ready(function () {
+            var cookieConfigTools = readCookie('configTools');
+            var cookieConfigFont = readCookie('configFont');
+
+            if (readCookie('configTools')) {
+                switchConfigTools(cookieConfigTools);
+            }
+
+            if (readCookie('configFont')) {
+                switchConfigFont(cookieConfigFont);
+            }
+        });
+    </script>
+
+    </div>
+</div>
+<div class="tabla1 tablaBloque4  "
+    >
+    
+    <div class="contenido1">
+        <div class="header-gov">
+	<div class="container">
+		<div class="row">
+			<!-- logo -->
+			<div class="col-xs-8 col-sm-4 logo-gov">
+				<div class='bloqueZona1  tipoDisplay'>
+            
+            <a href="https://www.gov.co/home/" title="Gobierno de Colombia" target='_blank'>
+                    <img class="img-fluid " src="https://sigdi.sicom.gov.co/info/minergia8/media/bloque2.png" id="bloqueImg2" alt="Gobierno de Colombia"/>
+                </a>
+        </div>
+			</div>
+			<!-- end logo -->
+			<!-- toolbar -->
+			<div class="col-xs-4 col-sm-8 toolbar-gov-co">
+				<div class='bloqueZona1  tipoDisplay'><div class="tabla1 tablaBloque5 toolbar-header-gov "
+    >
+    
+    <div class="contenido1">
+        <ul class="list-inline text-right toolbar-login">
+
+    <!-- language en -->
+    <li class="toolbar_language toolbar_language--en notranslate">
+        <a href="/loader.php?lServicio=Tools2&lTipo=idioma&idioma=EN" class="lang_button notranslate" data-lang="en">
+          EN
+        </a>
+    </li>
+    <!-- end language en -->
+    <!-- language es -->
+    <li class="toolbar_language toolbar_language--es notranslate">
+        <a href="/loader.php?lServicio=Tools2&lTipo=idioma&idioma=ES" class="lang_button notranslate lang_active" data-lang="es">
+         ES
+        </a>
+    </li>
+    <!-- end language es -->
+</ul>
+    </div>
+</div></div>
+			</div>
+			<!-- end toolbar -->
+		</div>
+	</div>
+</div>
+    </div>
+</div><div class="nxBlock nxBlock1 nxBlockDesign1 nxBlockLayout
+ header_entidad container"
+     >
+    
+    <div class="defaultLayout blockContent">
+            <div class="layout1">
+        <div class="row">
+                            <div class="item col-lg-6 col-md-6 col-sm-6 col-12 logo_entidad">
+                    <div class='bloqueZona1  tipoDisplay'><div class="tabla1 tablaBloque26  "
+    >
+    
+    <div class="contenido1">
+        <img class="img-fluid " src="https://portal.sicom.gov.co/SICOM/App_Movil/logoMME.png" id="bloqueImg6" alt="Ministerio de Minas y Energía" width="395" height="100">
+    </div>
+</div></div>
+                </div>
+                            <div class="item col-lg-4 col-md-4 col-sm-6 col-12 offset-lg-1 offset-md-1 buscar_entidad">
+                    <div class='bloqueZona1  tipoDisplay'>
+            
+            <a href="/index.php" title="Logo SIGDI - Guía digital de transporte" target='_self'>
+                    <img class="img-fluid " src="https://sigdi.sicom.gov.co/info/minergia8/media/bloque18.png" id="bloqueImg18" alt="Logo SIGDI - Guía digital de transporte"/>
+                </a>
+        </div>
+                </div>
+                    </div>
+    </div>
+    </div>
+</div>
+<div class="tabla1 tablaBloque16 u-menu "
+    >
+    
+    <div class="contenido1">
+        
+    </div>
+</div><div class="tabla1 tablaBloque21  "
+    >
+    
+    <div class="contenido1">
+        <style>
+
+.dModGuias:not(.dLoginGuia) .card {
+    background-color: #f3f3f3;
+}
+h2 {
+    color: #0a8869;
+}
+</style>
+    </div>
+</div>
+</header>
+<!-- main content -->
+<section id="main-content" class="container cInterno">
+    <section class="row">
+        <section class="col-xs-12 col-md-12 main-content-info">
+			<div id="infoPrincipal">
+        <ul class="modPath breadcrumb">
+            <li class="modPath-home"><a href="https://sigdi.sicom.gov.co/"><span class="fa fa-home"></span><span class="text">Inicio</span></a></li>
+    
+    
+    <li>Validar Código de la Firma</li>
+</ul>
+
+
+        <h1>Validar Código de la Firma</h1>
+
+        <div class="modMenu row"></div>
+                <div class="modContent">
+            
+                <script>
+        $("body").addClass("dLoginGuia")
+    </script>
+    <section class="h-100 gradient-form">
+        <div class="container-fluid pt-5 h-100">
+            <div class="row d-flex justify-content-start align-items-start h-100">
+                <div class="col-xl-7 col-sm-12">
+                    <div class="card text-black shadow" style="border-radius: 20px;">
+                        <div class="row g-0">
+                            <div class="col-lg-12">
+                                <div class="card-body pl-md-5 pr-md-5 pt-md-5 mx-md-4">
+
+                                    <div class="text-left">
+                                        <h1 class="mt-1 mb-1 pb-1 text-success">Consulta Guías Digitales</h1>
+                                    </div>
+
+                                    <div class="d-flex justify-content-around">
+                                        <a href="https://sigdi.sicom.gov.co/admin">
+                                            <button class="btn btn-success">ENTE DE CONTROL</button>
+                                        </a>
+                                        <a href="/guias//verguiapdf/?type=general">
+                                            <button class="btn btn-success">USUARIO GENERAL</button>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+        </div>
+            </div>
+
+        </section>
+    </section>
+</section>
+<!-- end main content -->
+<footer>
+     <div class="tabla1 tablaBloque13 footer footer-govco "
+    >
+    
+    <div class="contenido1">
+        <div class="container">
+	<div class="row">
+		<div class="col-lg-3 col-md-3 col-sm-12 col-12 footer_logo_govco item-footer">
+			<div class='bloqueZona3  tipoDisplay'>
+            
+            
+                    <img class="img-fluid " src="https://sigdi.sicom.gov.co/info/minergia8/media/bloque11.png" id="bloqueImg11" alt="Imagen"/>
+                
+        </div>
+		</div>
+		<div class="col-lg-5 col-md-4 col-sm-12 col-12 footer_sede_principal item-footer">
+			<div class='bloqueZona3  tipoDisplay'><div class="tabla1 tablaBloque14  "
+    >
+    
+    <div class="contenido1">
+        <div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+			<h3>Ministerio de Minas y Energía</h3>
+			<p>Sede Principal: Calle 43 No. 57 - 31 CAN - Bogotá D.C., Colombia</p>
+			<p>Código Postal: 111321</p>
+			<p>Horario de Atención: Lunes a Viernes 7:00 AM - 4:00 PM</p>
+		</div>
+	</div>
+	<div class="row justify-content-center footer-socialnetworks">
+                    
+        <div class="col-4 text-center mt-1">
+            <a href="https://twitter.com/MinEnergiaCo" target="_blank">
+                <span class="fa fa-twitter"><span class="sr-only">icono</span></span>
+                <div class="text-center">Twitter</div>
+            </a>
+        </div>
+
+    
+        <div class="col-4 text-center mt-1">
+            <a href="https://www.instagram.com/ministeriominasyenergia" target="_blank">
+                <span class="fa fa-instagram"><span class="sr-only">icono</span></span>
+                <div class="text-center">Instagram</div>
+            </a>
+        </div>
+
+    
+        <div class="col-4 text-center mt-1">
+            <a href="https://www.facebook.com/MinEnergiaCo" target="_blank">
+                <span class="fa fa-facebook"><span class="sr-only">icono</span></span>
+                <div class="text-center">Facebook</div>
+            </a>
+        </div>
+
+    
+        <div class="col-4 text-center mt-1">
+            <a href="https://www.youtube.com/user/MinisteriodeMinas" target="_blank">
+                <span class="fa fa-youtube"><span class="sr-only">icono</span></span>
+                <div class="text-center">YouTube</div>
+            </a>
+        </div>
+
+    
+        <!--<div class="col-4 text-center mt-1">
+            <a href="https://www.minenergia.gov.co/canal-de-whatsapp" target="_blank">
+                <span class="fa fa-whatsapp"><span class="sr-only">icono</span></span>
+                <div class="text-center">WhastApp</div>
+            </a>
+        </div>-->
+
+    
+        <div class="col-4 text-center mt-1">
+            <a href="https://www.flickr.com/photos/minminasco" target="_blank">
+                <span class="fa fa-flickr"><span class="sr-only">icono</span></span>
+                <div class="text-center">Flickr</div>
+            </a>
+        </div>
+
+	</div>
+</div>
+    </div>
+</div></div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12 col-12 footer_sede_contact item-footer">
+			<div class='bloqueZona3  tipoDisplay'><div class="tabla1 tablaBloque15  "
+    >
+    
+    <div class="contenido1">
+        <div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+			<h3>Contacto</h3>
+			<p>Teléfono Conmutador: (60) +1 220 0300</p>
+			<p>Correo Institucional: menergia@minenergia.gov.co</p>
+			<p>Para registrar su PQRS: menergia@minenergia.gov.co</p>
+			<p>Línea Gratuita: 018000 910 180</p>
+			<p>Correo de notificaciones judiciales: notijudiciales@minenergia.gov.co</p>
+			<p>Línea Anticorrupción : lineaetica@minenergia.gov.co</p>
+			<p><a href="#">Política de seguridad de la información</a></p>
+		</div>
+	</div>
+</div>
+    </div>
+</div></div>
+		</div>
+	</div>
+</div>
+    </div>
+</div><div class="tabla1 tablaBloque10  "
+    >
+    
+    <div class="contenido1">
+        <div class="scroll-to-top show-scrollTop">
+    <button id="btnTopPage" class="scroll-to-topButton">
+        <span class="govco-icon govco-icon-shortu-arrow-n btn-svg-up-hover">
+        </span>
+        <span class="label-button-star-up"> Volver a arriba </span>
+    </button>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.scroll-to-topButton').click(function(){
+            $('body, html').animate({
+                scrollTop: '0px'
+            }, 300)
+        });
+        $(window).scroll(function(){
+            if($(this).scrollTop() > 0){
+                $('.scroll-to-topButton').slideDown(300);
+            }else{
+                $('.scroll-to-topButton').slideUp(300)
+            }
+        })
+    })
+</script>
+    </div>
+</div>
+    <section class="powered text-right">
+        <a href="http://nexura.com" target="blank" class="white-logo">Powered by Nexura</a>
+    </section>
+</footer>
+<script src="/info/minergia8/web/portal/js/jquery_cookie.js"></script>
+<script src="/info/minergia8/web/portal/js/functions.min.js"></script>            <script>
+                $(document).ready(function () {
+
+                    jQuery.validator.addMethod("email2", function (value, element) {
+                        // allow any non-whitespace characters as the host part
+                        return this.optional(element) || /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,3})$/.test(value);
+                    });
+
+                });
+            </script>
+            
+<script src="https://sigdi.sicom.gov.co/media/plugins/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://sigdi.sicom.gov.co/media/plugins/default/js/global.min.js"></script>
+<script src="https://sigdi.sicom.gov.co/media/plugins/vozme/vozme.js"></script>
+<script src="https://sigdi.sicom.gov.co/media/plugins/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://sigdi.sicom.gov.co/media/plugins/jqueryValidate/1.19.5/src/localization/messages_es.js"></script>
+<script src="https://sigdi.sicom.gov.co/media/plugins/calendar/jquery-timepicker/1.4.4/jquery-ui-timepicker-addon.min.js"></script>
+
+</body>
+</html>
