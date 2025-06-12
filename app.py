@@ -10,6 +10,9 @@ from pyzbar.pyzbar import decode
 import json
 import uuid
 
+# Establecer la ruta de la biblioteca ZBar
+os.environ['LD_LIBRARY_PATH'] = os.path.join(os.getcwd(), 'lib/zbar')
+
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 OUTPUT_FOLDER = 'outputs'
