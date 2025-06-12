@@ -126,7 +126,6 @@ def reemplazar_qr(doc, url, original_bytes):
     qr_bytes = BytesIO()
     qr_img.save(qr_bytes, format='PNG')
     qr_bytes.seek(0)
-
     qr_rect = find_qr_in_pdf_bytes(original_bytes)
     print(qr_rect)
     page = doc[0]
