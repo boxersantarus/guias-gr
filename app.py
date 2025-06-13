@@ -4,8 +4,6 @@ import qrcode
 from flask import Flask, request, send_file, render_template_string, render_template, redirect
 from bs4 import BeautifulSoup
 from io import BytesIO
-import cv2
-import numpy as np
 import json
 import uuid
 
