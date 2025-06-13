@@ -6,26 +6,11 @@ from bs4 import BeautifulSoup
 from io import BytesIO
 import cv2
 import numpy as np
-#from pyzbar.pyzbar import decode
 import json
 import uuid
-#from pyzbar import pyzbar
-
-# Configurar la ruta de la biblioteca local
-#os.environ['LD_LIBRARY_PATH'] = os.path.join(os.getcwd(), 'lib/zbar')
-
-# Decodificar un ejemplo
-#from PIL import Image
-#image = Image.open('example.png')
-#decoded_objects = pyzbar.decode(image)
-#for obj in decoded_objects:
-#    print("Type:", obj.type)
-#    print("Data:", obj.data.decode("utf-8"))
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
 OUTPUT_FOLDER = 'outputs'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # HTML base (consulta.html modificable)
@@ -47,7 +32,6 @@ def procesar():
 
     # Extraer Código de Verificación
     text = "\n".join(page.get_text() for page in doc)
-    #print(text)
     cod_verif = extraer_codigo_verificacion(text)
     if not cod_verif:
         return "No se encontró el Código de Verificación."
@@ -69,17 +53,11 @@ def procesar():
         print(e)
 
     qr_url = f"{base_url}/html/{cod_verif}"
-    qr_url_html = f"{base_url}/guias/validar/{cod_verif}"
 
     campos = extraer_campos(text, qr_url)
     os.makedirs("data", exist_ok=True)
     with open(f"data/{cod_verif}.json", "w", encoding="utf-8") as f:
         json.dump(campos, f, indent=2, ensure_ascii=False)
-
-    
-    #output_pdf_path = os.path.join(OUTPUT_FOLDER, f"{cod_verif}.pdf")
-    #reemplazar_qr(doc, qr_url, pdf_bytes)
-    #doc.save(output_pdf_path)
 
     # Modificar HTML
     html_mod = modificar_html(cod_verif)
@@ -87,7 +65,6 @@ def procesar():
     with open(html_output_path, 'w', encoding='utf-8') as f:
         f.write(html_mod)
 
-    #return f"PDF generado con éxito. <a href='/descargar/{cod_verif}'>Descargar PDF</a> | <a href='/html/{cod_verif}'>Ver HTML</a>"
     return render_template("resultado.html", codigo=cod_verif)
 
 
@@ -98,72 +75,6 @@ def extraer_codigo_verificacion(text):
             if len(parts) == 2:
                 return parts[1].strip()
     return None
-
-def find_qr_in_pdf_bytes(pdf_bytes):
-    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-    for page_num in range(len(doc)):
-        page = doc.load_page(page_num)
-        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))  # alta resolución
-        img = np.frombuffer(pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, pix.n))
-        img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY) if pix.n > 1 else img
-
-        decoded_objects = decode(img_gray)
-
-        for obj in decoded_objects:
-            x, y, w, h = obj.rect
-            qr_rect = fitz.Rect(x, y, x + w, y + h)
-
-            # Mapear coordenadas de la imagen a coordenadas de la página
-            page_rect = page.rect
-            img_rect = fitz.Rect(0, 0, pix.width, pix.height)
-
-            # Calcular factor de escala
-            scale_x = page_rect.width / img_rect.width
-            scale_y = page_rect.height / img_rect.height
-            # Convertir a coordenadas de página
-            qr_page_rect = fitz.Rect(
-                qr_rect.x0 * scale_x,
-                qr_rect.y0 * scale_y,
-                qr_rect.x1 * scale_x,
-                qr_rect.y1 * scale_y
-            )
-            doc.close()
-            return qr_page_rect  # retorna el primero que encuentra
-
-    doc.close()
-    return None
-
-def reemplazar_qr(doc, url, original_bytes):
-    qr_img = qrcode.make(url)
-    qr_bytes = BytesIO()
-    qr_img.save(qr_bytes, format='PNG')
-    qr_bytes.seek(0)
-    qr_rect = find_qr_in_pdf_bytes(original_bytes)
-    print(qr_rect)
-    page = doc[0]
-    #page = 0
-    print(f"page = {page}")
-    if qr_rect:
-        page.draw_rect(qr_rect, color=(1,1,1), fill=(1,1,1))  # cubre QR viejo
-        page.insert_image(qr_rect, stream=qr_bytes)
-    else:
-        # fallback manual
-        fallback = fitz.Rect(400, 620, 540, 760)
-        page.draw_rect(fallback, color=(1,1,1), fill=(1,1,1))
-        page.insert_image(fallback, stream=qr_bytes)
-
-
-def eliminar_secciones(doc):
-    for page in doc:
-        blocks = page.get_text("dict")['blocks']
-        for b in blocks:
-            if 'lines' in b:
-                for l in b['lines']:
-                    for s in l['spans']:
-                        if any(p in s['text'].upper() for p in ["INFORMACIÓN PRODUCTOS", "INFORMACIÓN DETALLADA"]):
-                            rect = fitz.Rect(b['bbox'])
-                            page.add_redact_annot(rect, fill=(1,1,1))
-        page.apply_redactions()
 
 def modificar_html(codigo):
     soup = BeautifulSoup(HTML_TEMPLATE, 'html.parser')
@@ -185,10 +96,8 @@ def ver_html(codigo):
     with open(path, encoding='utf-8') as f:
         return render_template_string(f.read())
 
-
 @app.route('/editar/<codigo>', methods=["GET", "POST"])
 def editar(codigo):
-    
     json_path = f"data/{codigo}.json"
     if not os.path.exists(json_path):
         return "Datos no encontrados", 404
@@ -221,23 +130,6 @@ def editar(codigo):
         datos = json.load(f)  # lista de pares clave-valor
     return render_template("editar.html", codigo=codigo, datos=datos)
 
-
-#def extraer_campos(texto, qr):
-#    print(texto)
-#    campos = []  # lista de tuplas (clave, valor)
-#    for linea in texto.split("\n"):
-#        if ":" in linea:
-#            clave, valor = linea.split(":", 1)
-#            campos.append((clave.strip(), valor.strip()))
-#    clave, valor = "logo",""
-#    campos.append((clave.strip(), valor.strip()))
-#    clave, valor = "img_firma",""
-#   campos.append((clave.strip(), valor.strip()))
-#    clave, valor = "firmante",""
-#    campos.append((clave.strip(), valor.strip()))
-#    clave, valor = "codigo_qr",qr
-#    campos.append((clave.strip(), valor.strip()))
-#    return campos
 def extraer_campos(texto, qr):
     #print(texto)
     campos = []  # Lista de tuplas (clave, valor)
@@ -298,7 +190,6 @@ def extraer_campos(texto, qr):
     campos.append(("codigo_qr", qr))
 
     return campos
-
 
 def obtener_valor_definido(datos, clave):
     for item in datos:
@@ -501,7 +392,6 @@ def generar_pdf_desde_plantilla1(json_path, salida_path, plantilla_path="plantil
 
     with open(json_path, encoding="utf-8") as f:
         datos = json.load(f)
-    #print(datos)
 
     doc = fitz.open(plantilla_path)
     page = doc[0]  # Usamos la primera página
