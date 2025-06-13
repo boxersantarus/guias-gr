@@ -239,7 +239,7 @@ def editar(codigo):
 #    campos.append((clave.strip(), valor.strip()))
 #    return campos
 def extraer_campos(texto, qr):
-    print(texto)
+    #print(texto)
     campos = []  # Lista de tuplas (clave, valor)
     lineas = texto.split("\n")
     clave_actual = None
@@ -329,7 +329,7 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
 
     with open(json_path, encoding="utf-8") as f:
         datos = json.load(f)
-    print(datos)
+    #print(datos)
 
     doc = fitz.open(plantilla_path)
     page = doc[0]  # Usamos la primera página
