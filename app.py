@@ -176,6 +176,7 @@ def modificar_html(codigo):
 @app.route('/descargar/<codigo>')
 def descargar_pdf(codigo):
     path = os.path.join(OUTPUT_FOLDER, f"{codigo}.pdf")
+    print("Ruta=",path)
     return send_file(path, as_attachment=True)
 
 @app.route('/html/<codigo>')
