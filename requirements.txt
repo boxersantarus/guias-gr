@@ -4,5 +4,6 @@ qrcode
 beautifulsoup4
 opencv-python
 pyzbarnumpy
+pyzbar
 gunicorn
 Pillow
