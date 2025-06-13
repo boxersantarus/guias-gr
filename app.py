@@ -358,7 +358,7 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
     page = doc[1] 
     # Firma
     if obtener_valor_definido(datos, 'img_firma'):
-        x = 380
+        x = 345
         y = 12
         img_rect = fitz.Rect(x, y, x + 160, y + 70)
         page.insert_image(img_rect, filename=obtener_valor_definido(datos, 'img_firma'))
