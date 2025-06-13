@@ -3,7 +3,7 @@ PyMuPDF
 qrcode
 beautifulsoup4
 opencv-python
-pyzbarnumpy
 pyzbar
+numpy
 gunicorn
 Pillow
