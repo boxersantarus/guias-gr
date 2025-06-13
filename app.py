@@ -228,8 +228,8 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
     # Encabezado
     if obtener_valor_definido(datos, 'logo'):
         x = 410
-        y = 10
-        img_rect = fitz.Rect(x, y, x + 180, y + 80)
+        y = 12
+        img_rect = fitz.Rect(x, y, x + 160, y + 70)
         page.insert_image(img_rect, filename=obtener_valor_definido(datos, 'logo'))
     
     # Información General
@@ -359,8 +359,8 @@ def generar_pdf_desde_plantilla(json_path, salida_path, plantilla_path="plantill
     # Firma
     if obtener_valor_definido(datos, 'img_firma'):
         x = 380
-        y = 10
-        img_rect = fitz.Rect(x, y, x + 100, y + 70)
+        y = 12
+        img_rect = fitz.Rect(x, y, x + 160, y + 70)
         page.insert_image(img_rect, filename=obtener_valor_definido(datos, 'img_firma'))
     # Firmante
     x, y = 340, 90
