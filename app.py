@@ -9,6 +9,8 @@ import uuid
 from PyPDF2 import PdfReader, PdfWriter
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
+import datetime
+import random
 
 app = Flask(__name__)
 OUTPUT_FOLDER = 'outputs'
@@ -570,11 +572,39 @@ def generar_overlay_sobre_plantilla_reducida(json_path, plantilla_path, salida_p
 
     print(f"PDF generado: {salida_path}")
 
+def generar_nombre_pdf_desde_json(data_json, fijo=20):
+    # Convertir la lista de pares clave-valor en un diccionario
+    datos = {clave: valor for clave, valor in data_json}
+
+    # Obtener y parsear la fecha del campo "Firmado"
+    fecha_firmado = datos.get("Firmado")
+    if not fecha_firmado:
+        raise ValueError("El campo 'Firmado' no se encuentra en el JSON.")
+    
+    # Convertir a objeto datetime (formato: "04/06/2025 08:29:33 PM")
+    dt = datetime.datetime.strptime(fecha_firmado, "%d/%m/%Y %I:%M:%S %p")
+    
+    # Sumar 2 segundos
+    dt += datetime.timedelta(seconds=2)
+    
+    # Formatear como YYYY-MM-DD-HH-MM-SS
+    fecha_hora = dt.strftime("%Y-%m-%d-%H-%M-%S")
+
+    # Generar número aleatorio y componer el nombre
+    nombre_archivo = f"{fecha_hora}-{fijo}-{random.randint(10000, 999999)}.pdf"
+    
+    return nombre_archivo
+
 @app.route("/generar_pdf/<codigo>")
 def generar_pdf_plantilla(codigo):
     json_path = f"data/{codigo}.json"
-    salida_path = f"outputs/{codigo}_completo.pdf"
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    nombre = generar_nombre_pdf_desde_json(data,20)
+    
+    salida_path = f"outputs/{nombre}"
     plantilla_path = "plantilla_full.pdf"
+    
     try:
         generar_overlay_sobre_plantilla(json_path, plantilla_path, salida_path)
         return send_file(salida_path, as_attachment=True)
